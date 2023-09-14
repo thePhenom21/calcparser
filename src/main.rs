@@ -48,7 +48,14 @@ fn main() {
             panic!("parse error")
         }
 
-        println!("{}",left.value + right.value);
+        match op.value {
+            0 => println!("{}",left.value + right.value),
+            1 => println!("{}",left.value - right.value),
+            2 => println!("{}",left.value * right.value),
+            3 => println!("{}",left.value / right.value),
+            _ => {}
+        }
+
 
     }
 
@@ -64,7 +71,7 @@ fn next_token(c: &mut Chars, size : usize, mut p: usize) -> (usize,Token){
 
     let ch = c.next().unwrap();
 
-    if !ch.is_digit(10) && ch != '+' {
+    if !ch.is_digit(10) && ch != '+' && ch != '-' && ch != '*' && ch != '/'  {
         return next_token(c,size,p+1);
     }
 
@@ -75,6 +82,20 @@ fn next_token(c: &mut Chars, size : usize, mut p: usize) -> (usize,Token){
     if ch == '+' {
         return (p+1,Token{t:OPERATOR,value:0});
     }
+
+    if ch == '-' {
+        return (p+1,Token{t:OPERATOR,value:1});
+    }
+
+    if ch == '*' {
+        return (p+1,Token{t:OPERATOR,value:2});
+    }
+
+    if ch == '/' {
+        return (p+1,Token{t:OPERATOR,value:3});
+    }
+
+
 
     if ch == ';'{
         return (p+1,Token{t:EOF,value:0});
